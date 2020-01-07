@@ -1,0 +1,44 @@
+﻿@model SistemaDeVendas.Models.CategoriaViewModel;
+@{
+    ViewData["Title"] = "Categorias";
+}
+@{ 
+    var disabled = (Model.Id == null) ? "disabled" : string.Empty;
+}
+<h2>Categorias</h2>
+<hr />
+
+<form asp-controller="Categoria" asp-action="Cadastro" method="post">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <div class="form-group">
+        <div class=" col-4">
+            <label>Descrição</label>
+            <input asp-for="Descricao" type="text" value="@Model.Descricao" class="form-control" />
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="col">
+            <button type="button" onclick="Novo()" class="btn btn-info" >Novo</button>
+            <button type="submit" class="btn btn-info" >Gravar</button>
+            <button type="button" class="btn btn-info" onclick="Listar()">Listar</button>
+            <button type="button" class="btn btn-info" onclick="Excluir(@Model.Id)" @disabled>Excluir</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    
+    function Novo() {
+        //window.location = window.origin + "\\Categoria\\Cadastro";
+        Request("Cadastro")
+    }
+    function Listar() {
+        Request("");
+    }
+    function Excluir(Id) {
+        Request("Excluir\\" + Id);
+    }
+    function Request(request) {
+        window.location = window.origin + "\\Categoria\\" + request;
+    }
+</script>
