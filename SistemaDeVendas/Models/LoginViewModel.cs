@@ -4,17 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Aplicacao.Entidades
+namespace Aplicacao.Models
 {
-    public class Usuario
+    public class LoginViewModel
     {
-        [Key]
-        public int? Id { get; set; }
-
-        public string Nome { get; set; }
-
+        [Required(ErrorMessage ="Informe seu E-mail")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Informe sua Senha")]
         public string Senha { get; set; }
     }
 }

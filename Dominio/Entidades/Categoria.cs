@@ -4,13 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Aplicacao.Models
+namespace SistemaDeVenda.Dominio.Entidades
 {
-    public class CategoriaViewModel
+    public class Categoria
     {
+        [Key]
         public int? Id { get; set; }
 
-        [Required(ErrorMessage ="Informe a Descrição!")]
         public string Descricao { get; set; }
+
+        public ICollection<Produto> Produtos { get; set; }
     }
 }

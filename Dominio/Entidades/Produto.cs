@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Aplicacao.Entidades
+namespace SistemaDeVenda.Dominio.Entidades
 {
     public class Produto
     {

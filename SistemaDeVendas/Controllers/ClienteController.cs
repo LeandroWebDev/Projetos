@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Aplicacao.DAL;
+using Aplicacao.Entidades;
+using Aplicacao.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SistemaDeVendas.DAL;
-using SistemaDeVendas.Entidades;
-using SistemaDeVendas.Models;
 
-namespace SistemaDeVendas.Controllers
+namespace Aplicacao.Controllers
 {
     public class ClienteController : Controller
     {

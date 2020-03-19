@@ -1,4 +1,4 @@
-﻿@model SistemaDeVendas.Models.VendaViewModel;
+﻿@model Aplicacao.Models.VendaViewModel;
 @{
     ViewData["Title"] = "Venda";
 }
@@ -81,7 +81,7 @@
         </div>
     </div>
 
-    <textarea asp-for="JsonProdutos" id="txtJsonProdutos" class="col" display="none"></textarea>
+    <textarea asp-for="JsonProdutos" id="txtJsonProdutos" class="col" style="display:none"></textarea>
 
     <br />
     <div class="col">
@@ -123,7 +123,7 @@
             "<td>" + CodigoProduto.options[CodigoProduto.selectedIndex].text + "</td>" +
             "<td>" + ValorUnitario + "</td>" +
             "<td>" + Qtde + "</td>" +
-            "<td> R$ " + SubTotal + "</td>" +
+            "<td> R$ " +  formatarCasaDecimal(SubTotal).replace(".", ","); + "</td>" +
             "</tr>";
 
         gridProdutos.innerHTML += linhaGrid;

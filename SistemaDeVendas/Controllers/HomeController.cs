@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Aplicacao.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SistemaDeVendas.Models;
+using Aplicacao.Models;
 
-namespace SistemaDeVendas.Controllers
+namespace Aplicacao.Controllers
 {
     public class HomeController : Controller
     {

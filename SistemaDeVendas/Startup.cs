@@ -5,14 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SistemaDeVendas.DAL;
 using Microsoft.AspNetCore.Http;
+using Aplicacao.Servico.Interfaces;
+using Aplicacao.Servico;
+using Dominio.Servicos;
+using Dominio.Interfaces;
+using Aplicacao.DAL;
 
-namespace SistemaDeVendas
+namespace Aplicacao
 {
     public class Startup
     {
@@ -33,7 +37,10 @@ namespace SistemaDeVendas
              );
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IServicoAplicacaoCategoria, ServicoAplicacaoCategoria>();
+            services.AddScoped<IServicoCategoria, ServicoCategoria>();
             services.AddSession();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +67,7 @@ namespace SistemaDeVendas
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
             });
         }
     }
