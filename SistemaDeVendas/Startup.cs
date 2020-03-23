@@ -15,6 +15,8 @@ using Aplicacao.Servico;
 using Dominio.Servicos;
 using Dominio.Interfaces;
 using Aplicacao.DAL;
+using Dominio.Repositorio;
+using Repositorio.Entidades;
 
 namespace Aplicacao
 {
@@ -36,10 +38,17 @@ namespace Aplicacao
                  options.UseSqlServer(Configuration.GetConnectionString("Conexao"))
              );
 
+            services.AddDbContext<Repositorio.Contexto.ApplicationDbContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("Conexao"))
+             );
+
+            services.AddHttpContextAccessor();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IServicoAplicacaoCategoria, ServicoAplicacaoCategoria>();
             services.AddScoped<IServicoCategoria, ServicoCategoria>();
             services.AddSession();
+            services.AddScoped<IRepositorioCategoria, RepositorioCategoria>();
+            services.AddScoped<ApplicationDbContext>();
             
         }
 

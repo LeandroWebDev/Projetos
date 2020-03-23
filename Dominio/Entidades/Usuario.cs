@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SistemaDeVenda.Dominio.Entidades
+namespace Dominio.Entidades
 {
     public class Usuario
     {
