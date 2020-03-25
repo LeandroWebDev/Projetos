@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dominio.Entidades
 {
-    public class Cliente
+    public class Cliente : EntityBase
     {
-        [Key]
-        public int? Id { get; set; }
-
         public string Nome { get; set; }
 
         public string CNPJ_CPF { get; set; }

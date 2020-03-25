@@ -1,4 +1,5 @@
-﻿using Dominio.Repositorio;
+﻿using Dominio.Entidades;
+using Dominio.Repositorio;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,34 +8,45 @@ using System.Text;
 
 namespace Repositorio
 {
-    public abstract class Repositorio<TEntidade> : DbContext, IRepositorio<TEntidade> where TEntidade : class, new()
+    public abstract class Repositorio<TEntidade> : DbContext, IRepositorio<TEntidade> where TEntidade : EntityBase, new()
     {
 
         DbContext context;
-        DbSet<TEntidade> Entidades;
+        DbSet<TEntidade> Entidade;
         public Repositorio(DbContext dbContext)
         {
             context = dbContext;
-            Entidades = context.Set<TEntidade>();
+            Entidade = context.Set<TEntidade>();
         }
         public void Create(TEntidade Entity)
         {
-            throw new NotImplementedException();
+           if(Entity.Id == null)
+           {
+                Entidade.Add(Entity);
+           }
+           else
+           {
+                context.Entry(Entity).State = EntityState.Modified;
+           }
+            context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var ent = new TEntidade { Id = id };
+            Entidade.Attach(ent);
+            Entidade.Update(ent);
+            context.SaveChanges();
         }
 
         public TEntidade Read(int id)
         {
-            throw new NotImplementedException();
+            return Entidade.Where(x => x.Id == id).FirstOrDefault();
         }
 
         public IEnumerable<TEntidade> Read()
         {
-            return Entidades.AsNoTracking().ToList();
+            return Entidade.AsNoTracking().ToList();
         }
     }
 }

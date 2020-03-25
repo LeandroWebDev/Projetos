@@ -17,12 +17,12 @@ namespace Dominio.Servicos
         }
         public void Cadastrar(Categoria categoria)
         {
-            throw new NotImplementedException();
+           RepositorioCategoria.Create(categoria);
         }
 
         public void Excluir(int id)
         {
-            throw new NotImplementedException();
+            RepositorioCategoria.Delete(id);
         }
 
         public IEnumerable<Categoria> GetCategoria()
@@ -33,7 +33,7 @@ namespace Dominio.Servicos
 
         public Categoria GetCategoria(int id)
         {
-            throw new NotImplementedException();
+            return RepositorioCategoria.Read(id);
         }
     }
 }

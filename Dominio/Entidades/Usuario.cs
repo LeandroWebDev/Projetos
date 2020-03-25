@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dominio.Entidades
 {
-    public class Usuario
+    public class Usuario : EntityBase
     {
-        [Key]
-        public int? Id { get; set; }
-
         public string Nome { get; set; }
 
         public string Email { get; set; }

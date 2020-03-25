@@ -9,5 +9,7 @@ namespace Aplicacao.Servico.Interfaces
     public interface IServicoAplicacaoCategoria
     {
         IEnumerable<CategoriaViewModel> GetCategoria();
+        CategoriaViewModel GetRegistro(int id);
+        void Cadastrar(CategoriaViewModel categoria);
     }
 }
