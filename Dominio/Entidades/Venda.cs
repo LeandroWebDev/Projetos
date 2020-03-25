@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace Dominio.Entidades
 {
-    public class Venda
+    public class Venda : EntityBase
     {
-        [Key]
-        public int? Id { get; set; }
-
         public DateTime Data { get; set; }
 
         public decimal Total { get; set; }

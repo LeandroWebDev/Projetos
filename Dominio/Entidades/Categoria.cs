@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dominio.Entidades
 {
-    public class Categoria
+    public class Categoria : EntityBase
     {
-        [Key]
-        public int? Id { get; set; }
-
         public string Descricao { get; set; }
 
         public ICollection<Produto> Produtos { get; set; }
