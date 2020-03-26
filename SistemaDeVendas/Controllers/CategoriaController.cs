@@ -29,7 +29,12 @@ namespace Aplicacao.Controllers
         [HttpGet]
         public IActionResult Cadastro(int? id)
         {
-            CategoriaViewModel viewModel = ServicoAplicacaoCategoria.GetRegistro((int)id);
+            CategoriaViewModel viewModel = new CategoriaViewModel();
+            if (id != null)
+            {
+                viewModel = ServicoAplicacaoCategoria.GetRegistro((int)id);
+            }   
+               
             return View(viewModel);
         }
 
@@ -38,22 +43,7 @@ namespace Aplicacao.Controllers
         {
             if (ModelState.IsValid)
             {
-                Categoria ObjCategoria = new Categoria()
-                {
-                    Id = categoria.Id,
-                    Descricao = categoria.Descricao
-
-                };
-                if (categoria.Id == null)
-                {
-                    dbContext.Categoria.Add(ObjCategoria);
-                }
-                else
-                {
-                    dbContext.Entry(ObjCategoria).State = EntityState.Modified;
-                }
-
-                dbContext.SaveChanges();
+                ServicoAplicacaoCategoria.Cadastrar(categoria);
             }
             else
             {
@@ -65,10 +55,7 @@ namespace Aplicacao.Controllers
 
         public IActionResult Excluir(int id)
         {
-            var categoria = new Categoria() { Id = id };
-            dbContext.Attach(categoria);
-            dbContext.Remove(categoria);
-            dbContext.SaveChanges();
+            ServicoAplicacaoCategoria.Excluir(id);
             return RedirectToAction("Index");
         }
     }

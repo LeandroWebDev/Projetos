@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dominio.Interfaces;
-using Aplicacao.Entidades;
+using Dominio.Entidades;
 
 namespace Aplicacao.Servico
 {
@@ -26,6 +26,11 @@ namespace Aplicacao.Servico
                 Descricao = categoriaView.Descricao
             };
             ServicoCategoria.Cadastrar(categoria);
+        }
+
+        public void Excluir(int id)
+        {
+            ServicoCategoria.Excluir(id);
         }
 
         public IEnumerable<CategoriaViewModel> GetCategoria()
