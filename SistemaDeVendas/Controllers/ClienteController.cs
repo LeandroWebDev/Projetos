@@ -2,74 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Aplicacao.DAL;
-using Aplicacao.Entidades;
-using Aplicacao.Models;
+using Aplicacao.Servico.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Aplicacao.Models;
+using Aplicacao.DAL;
 
 namespace Aplicacao.Controllers
 {
     public class ClienteController : Controller
     {
-        protected readonly ApplicationDbContext dbContext;
+         //protected readonly ApplicationDbContext dbContext;
+
+        protected readonly IServicoAplicacaoCliente ServicoAplicacao;
         
-        public ClienteController(ApplicationDbContext context)
+        public ClienteController(IServicoAplicacaoCliente servicoAplicacao)
         {
-            dbContext = context;
+            ServicoAplicacao = servicoAplicacao;
         }
         public IActionResult Index()
         {
-            IEnumerable<Cliente> lista = dbContext.Cliente.ToList();
-            dbContext.Dispose();
-            return View(lista);
+            
+            return View(ServicoAplicacao.Listar());
         }
 
         [HttpGet]
         public IActionResult Cadastro(int? id)
         {
             ClienteViewModel viewModel = new ClienteViewModel();
-
-            if ( id !=null)
+            if (id != null)
             {
-                var cliente = dbContext.Cliente.Where(x => x.Id == id).FirstOrDefault();
-                viewModel.Id = cliente.Id;
-                viewModel.Nome = cliente.Nome;
-                viewModel.CNPJ_CPF = cliente.CNPJ_CPF;
-                viewModel.Email = cliente.Email;
-                viewModel.Celular = cliente.Celular;
-            }
+                viewModel = ServicoAplicacao.Carregar((int)id);
+            }   
+               
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Cadastro(ClienteViewModel cliente)
+        public IActionResult Cadastro(ClienteViewModel item)
         {
             if (ModelState.IsValid)
             {
-                Cliente ObjCiente = new Cliente()
-                {
-                    Id = cliente.Id,
-                    Nome = cliente.Nome,
-                    CNPJ_CPF = cliente.CNPJ_CPF,
-                    Email = cliente.Email,
-                    Celular = cliente.Celular
-
-                };
-                if(cliente.Id == null)
-                {
-                    dbContext.Cliente.Add(ObjCiente);
-                }
-                else
-                {
-                    dbContext.Entry(ObjCiente).State = EntityState.Modified;
-                }
-
-                dbContext.SaveChanges();
+                ServicoAplicacao.Cadastrar(item);
             }
             else
             {
-                return View(cliente);
+                return View(item);
             }
 
             return RedirectToAction("Index");
@@ -77,10 +55,7 @@ namespace Aplicacao.Controllers
 
         public IActionResult Excluir(int id)
         {
-            var cliente = new Cliente() { Id = id };
-            dbContext.Attach(cliente);
-            dbContext.Remove(cliente);
-            dbContext.SaveChanges();
+            ServicoAplicacao.Excluir(id);
             return RedirectToAction("Index");
         }
     }

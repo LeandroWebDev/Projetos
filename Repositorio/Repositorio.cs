@@ -35,7 +35,7 @@ namespace Repositorio
         {
             var ent = new TEntidade { Id = id };
             Entidade.Attach(ent);
-            Entidade.Update(ent);
+            Entidade.Remove(ent);
             context.SaveChanges();
         }
 

@@ -43,12 +43,16 @@ namespace Aplicacao
              );
 
             services.AddHttpContextAccessor();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IServicoAplicacaoCategoria, ServicoAplicacaoCategoria>();
-            services.AddScoped<IServicoCategoria, ServicoCategoria>();
-            services.AddSession();
-            services.AddScoped<IRepositorioCategoria, RepositorioCategoria>();
+
             services.AddScoped<ApplicationDbContext>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSession();
+            services.AddScoped<IServicoAplicacaoCategoria, ServicoAplicacaoCategoria>();
+            services.AddScoped<IServicoAplicacaoCliente, ServicoAplicacaoCliente>();
+            services.AddScoped<IServicoCategoria, ServicoCategoria>();
+            services.AddScoped<IServicoCliente, ServicoCliente>();
+            services.AddScoped<IRepositorioCategoria, RepositorioCategoria>();
+            services.AddScoped<IRepositorioCliente, RepositorioCliente>();
             
         }
 

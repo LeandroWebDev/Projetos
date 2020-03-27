@@ -14,16 +14,16 @@ namespace Aplicacao.Controllers
     {
          //protected readonly ApplicationDbContext dbContext;
 
-        protected readonly IServicoAplicacaoCategoria ServicoAplicacaoCategoria;
+        protected readonly IServicoAplicacaoCategoria ServicoAplicacao;
         
-        public CategoriaController(IServicoAplicacaoCategoria servicoAplicacaoCategoria)
+        public CategoriaController(IServicoAplicacaoCategoria servicoAplicacao)
         {
-            ServicoAplicacaoCategoria = servicoAplicacaoCategoria;
+            ServicoAplicacao = servicoAplicacao;
         }
         public IActionResult Index()
         {
             
-            return View(ServicoAplicacaoCategoria.GetCategoria());
+            return View(ServicoAplicacao.Listar());
         }
 
         [HttpGet]
@@ -32,22 +32,22 @@ namespace Aplicacao.Controllers
             CategoriaViewModel viewModel = new CategoriaViewModel();
             if (id != null)
             {
-                viewModel = ServicoAplicacaoCategoria.GetRegistro((int)id);
+                viewModel = ServicoAplicacao.Carregar((int)id);
             }   
                
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Cadastro(CategoriaViewModel categoria)
+        public IActionResult Cadastro(CategoriaViewModel item)
         {
             if (ModelState.IsValid)
             {
-                ServicoAplicacaoCategoria.Cadastrar(categoria);
+                ServicoAplicacao.Cadastrar(item);
             }
             else
             {
-                return View(categoria);
+                return View(item);
             }
 
             return RedirectToAction("Index");
@@ -55,7 +55,7 @@ namespace Aplicacao.Controllers
 
         public IActionResult Excluir(int id)
         {
-            ServicoAplicacaoCategoria.Excluir(id);
+            ServicoAplicacao.Excluir(id);
             return RedirectToAction("Index");
         }
     }
