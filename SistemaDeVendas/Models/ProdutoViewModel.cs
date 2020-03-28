@@ -26,5 +26,7 @@ namespace Aplicacao.Models
         public int? IdCategoria { get; set; }
 
         public IEnumerable<SelectListItem>ListaGategorias { get; set; }
+
+        public string DescricaoCategoria { get; set; }
     }
 }

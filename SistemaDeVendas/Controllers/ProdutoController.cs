@@ -2,102 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Aplicacao.DAL;
-using Aplicacao.Entidades;
-using Aplicacao.Models;
+using Aplicacao.Servico.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Aplicacao.Models;
+using Aplicacao.DAL;
 
 namespace Aplicacao.Controllers
 {
     public class ProdutoController : Controller
     {
-        protected readonly ApplicationDbContext dbContext;
+         //protected readonly ApplicationDbContext dbContext;
+
+        protected readonly IServicoAplicacaoProduto ServicoAplicacao;
         
-        public ProdutoController(ApplicationDbContext context)
+        public ProdutoController(IServicoAplicacaoProduto servicoAplicacao)
         {
-            dbContext = context;
+            ServicoAplicacao = servicoAplicacao;
         }
         public IActionResult Index()
         {
-            IEnumerable<Produto> lista = dbContext.Produto.Include(x => x.Categoria).ToList();
-            dbContext.Dispose();
-            return View(lista);
+            
+            return View(ServicoAplicacao.Listar());
         }
 
         [HttpGet]
         public IActionResult Cadastro(int? id)
         {
             ProdutoViewModel viewModel = new ProdutoViewModel();
-            viewModel.ListaGategorias = ListaCategorias();
-            if ( id !=null)
-            {
-                var produto = dbContext.Produto.Where(x => x.Id == id).FirstOrDefault();
-                viewModel.Id = produto.Id;
-                viewModel.Descricao = produto.Descricao;
-                viewModel.Quantidade = produto.Quantidade;
-                viewModel.Valor = produto.Valor;
-                viewModel.IdCategoria = produto.IdCategoria;
 
-            }
+            if (id != null)
+            {
+                viewModel = ServicoAplicacao.Carregar((int)id);
+            }   
+               
             return View(viewModel);
         }
 
-        private IEnumerable<SelectListItem> ListaCategorias()
-        {
-            List<SelectListItem> lista = new List<SelectListItem>();
-
-            lista.Add(new SelectListItem()
-            {
-
-                Value = string.Empty,
-                Text = string.Empty
-            });
-
-            foreach (var item in dbContext.Categoria.ToList())
-            {
-                lista.Add(new SelectListItem()
-                {
-
-                    Value = item.Id.ToString(),
-                    Text = item.Descricao.ToString()
-                });
-
-            }
-            return lista;
-        }
-
         [HttpPost]
-        public IActionResult Cadastro(ProdutoViewModel produto)
+        public IActionResult Cadastro(ProdutoViewModel item)
         {
-            
             if (ModelState.IsValid)
             {
-                Produto ObjProduto = new Produto()
-                {
-                    Id = produto.Id,
-                    Descricao = produto.Descricao,
-                    Quantidade = produto.Quantidade,
-                    Valor = (decimal)produto.Valor,
-                    IdCategoria = (int)produto.IdCategoria
-
-                };
-                if(produto.Id == null)
-                {
-                    dbContext.Produto.Add(ObjProduto);
-                }
-                else
-                {
-                    dbContext.Entry(ObjProduto).State = EntityState.Modified;
-                }
-
-                dbContext.SaveChanges();
+                ServicoAplicacao.Cadastrar(item);
             }
             else
             {
-                produto.ListaGategorias = ListaCategorias();
-                return View(produto);
+                return View(item);
             }
 
             return RedirectToAction("Index");
@@ -105,10 +56,7 @@ namespace Aplicacao.Controllers
 
         public IActionResult Excluir(int id)
         {
-            var produto = new Produto() { Id = id };
-            dbContext.Attach(produto);
-            dbContext.Remove(produto);
-            dbContext.SaveChanges();
+            ServicoAplicacao.Excluir(id);
             return RedirectToAction("Index");
         }
     }

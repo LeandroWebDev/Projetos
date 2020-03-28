@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Servicos\Venda\" />
-    <Folder Include="Servicos\Produto\" />
     <Folder Include="Servicos\Usuario\" />
   </ItemGroup>
 
