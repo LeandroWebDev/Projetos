@@ -14,50 +14,40 @@ namespace Aplicacao.Controllers
     {
          //protected readonly ApplicationDbContext dbContext;
 
-        protected readonly IServicoAplicacaoCategoria ServicoAplicacaoCategoria;
+        protected readonly IServicoAplicacaoCategoria ServicoAplicacao;
         
-        public CategoriaController(IServicoAplicacaoCategoria servicoAplicacaoCategoria)
+        public CategoriaController(IServicoAplicacaoCategoria servicoAplicacao)
         {
-            ServicoAplicacaoCategoria = servicoAplicacaoCategoria;
+            ServicoAplicacao = servicoAplicacao;
         }
         public IActionResult Index()
         {
             
-            return View(ServicoAplicacaoCategoria.GetCategoria());
+            return View(ServicoAplicacao.Listar());
         }
 
         [HttpGet]
         public IActionResult Cadastro(int? id)
         {
-            CategoriaViewModel viewModel = ServicoAplicacaoCategoria.GetRegistro((int)id);
+            CategoriaViewModel viewModel = new CategoriaViewModel();
+            if (id != null)
+            {
+                viewModel = ServicoAplicacao.Carregar((int)id);
+            }   
+               
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Cadastro(CategoriaViewModel categoria)
+        public IActionResult Cadastro(CategoriaViewModel item)
         {
             if (ModelState.IsValid)
             {
-                Categoria ObjCategoria = new Categoria()
-                {
-                    Id = categoria.Id,
-                    Descricao = categoria.Descricao
-
-                };
-                if (categoria.Id == null)
-                {
-                    dbContext.Categoria.Add(ObjCategoria);
-                }
-                else
-                {
-                    dbContext.Entry(ObjCategoria).State = EntityState.Modified;
-                }
-
-                dbContext.SaveChanges();
+                ServicoAplicacao.Cadastrar(item);
             }
             else
             {
-                return View(categoria);
+                return View(item);
             }
 
             return RedirectToAction("Index");
@@ -65,10 +55,7 @@ namespace Aplicacao.Controllers
 
         public IActionResult Excluir(int id)
         {
-            var categoria = new Categoria() { Id = id };
-            dbContext.Attach(categoria);
-            dbContext.Remove(categoria);
-            dbContext.SaveChanges();
+            ServicoAplicacao.Excluir(id);
             return RedirectToAction("Index");
         }
     }

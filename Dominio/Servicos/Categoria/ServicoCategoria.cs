@@ -25,13 +25,13 @@ namespace Dominio.Servicos
             RepositorioCategoria.Delete(id);
         }
 
-        public IEnumerable<Categoria> GetCategoria()
+        public IEnumerable<Categoria> Listar()
         {
 
             return RepositorioCategoria.Read();
         }
 
-        public Categoria GetCategoria(int id)
+        public Categoria Carregar(int id)
         {
             return RepositorioCategoria.Read(id);
         }

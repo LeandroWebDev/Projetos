@@ -11,8 +11,8 @@ namespace Repositorio
     public abstract class Repositorio<TEntidade> : DbContext, IRepositorio<TEntidade> where TEntidade : EntityBase, new()
     {
 
-        DbContext context;
-        DbSet<TEntidade> Entidade;
+        protected DbContext context;
+        protected DbSet<TEntidade> Entidade;
         public Repositorio(DbContext dbContext)
         {
             context = dbContext;
@@ -35,7 +35,7 @@ namespace Repositorio
         {
             var ent = new TEntidade { Id = id };
             Entidade.Attach(ent);
-            Entidade.Update(ent);
+            Entidade.Remove(ent);
             context.SaveChanges();
         }
 
@@ -44,7 +44,7 @@ namespace Repositorio
             return Entidade.Where(x => x.Id == id).FirstOrDefault();
         }
 
-        public IEnumerable<TEntidade> Read()
+        public virtual IEnumerable<TEntidade> Read()
         {
             return Entidade.AsNoTracking().ToList();
         }

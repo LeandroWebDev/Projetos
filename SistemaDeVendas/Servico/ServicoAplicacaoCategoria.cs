@@ -6,31 +6,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dominio.Interfaces;
-using Aplicacao.Entidades;
+using Dominio.Entidades;
 
 namespace Aplicacao.Servico
 {
     public class ServicoAplicacaoCategoria : IServicoAplicacaoCategoria
     {
-        private readonly IServicoCategoria ServicoCategoria;
-        public ServicoAplicacaoCategoria(IServicoCategoria servicoCategoria)
+        private readonly IServicoCategoria Servico;
+        public ServicoAplicacaoCategoria(IServicoCategoria servico)
         {
-            ServicoCategoria = servicoCategoria;
+            Servico = servico;
         }
 
-        public void Cadastrar(CategoriaViewModel categoriaView)
+        public void Cadastrar(CategoriaViewModel view)
         {
-            Categoria categoria = new Categoria()
+            Categoria item = new Categoria()
             {
-                Id = categoriaView.Id,
-                Descricao = categoriaView.Descricao
+                Id = view.Id,
+                Descricao = view.Descricao
             };
-            ServicoCategoria.Cadastrar(categoria);
+            Servico.Cadastrar(item);
         }
 
-        public IEnumerable<CategoriaViewModel> GetCategoria()
+        public void Excluir(int id)
         {
-            var lista = ServicoCategoria.GetCategoria();
+            Servico.Excluir(id);
+        }
+
+        public IEnumerable<CategoriaViewModel> Listar()
+        {
+            var lista = Servico.Listar();
             List<CategoriaViewModel> listaCategoria = new List<CategoriaViewModel>();
 
             foreach (var item in lista)
@@ -45,16 +50,16 @@ namespace Aplicacao.Servico
             return listaCategoria;
         }
 
-        public CategoriaViewModel GetRegistro(int id)
+        public CategoriaViewModel Carregar(int id)
         {
-            var registro = ServicoCategoria.GetCategoria(id);
-            CategoriaViewModel categoria = new CategoriaViewModel()
+            var registro = Servico.Carregar(id);
+            CategoriaViewModel item = new CategoriaViewModel()
             {
                 Id = registro.Id,
                 Descricao = registro.Descricao
             };
 
-            return categoria;
+            return item;
         }
     }
 }

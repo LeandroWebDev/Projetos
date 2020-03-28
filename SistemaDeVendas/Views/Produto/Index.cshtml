@@ -1,4 +1,4 @@
-﻿@model List<Aplicacao.Entidades.Produto>;
+﻿@model List<Aplicacao.Models.ProdutoViewModel>;
 @{
     ViewData["Title"] = "Produto";
 }
@@ -24,7 +24,7 @@
             <td>@item.Descricao</td>
             <td>@item.Quantidade</td>
             <td>@item.Valor</td>
-            <td>@item.Categoria.Descricao</td>
+            <td>@item.DescricaoCategoria</td>
         </tr>
         }
     </tbody>
