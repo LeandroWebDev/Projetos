@@ -15,10 +15,11 @@ namespace Aplicacao.Controllers
          //protected readonly ApplicationDbContext dbContext;
 
         protected readonly IServicoAplicacaoProduto ServicoAplicacao;
-        
-        public ProdutoController(IServicoAplicacaoProduto servicoAplicacao)
+        protected readonly IServicoAplicacaoCategoria ServicoAplicacaoCategoria;
+        public ProdutoController(IServicoAplicacaoProduto servicoAplicacao, IServicoAplicacaoCategoria servicoAplicacaoCategoria)
         {
             ServicoAplicacao = servicoAplicacao;
+            ServicoAplicacaoCategoria = servicoAplicacaoCategoria; 
         }
         public IActionResult Index()
         {
@@ -30,12 +31,12 @@ namespace Aplicacao.Controllers
         public IActionResult Cadastro(int? id)
         {
             ProdutoViewModel viewModel = new ProdutoViewModel();
-
             if (id != null)
             {
                 viewModel = ServicoAplicacao.Carregar((int)id);
-            }   
-               
+            }
+
+            viewModel.ListaGategorias = ServicoAplicacaoCategoria.ListaDropDown();
             return View(viewModel);
         }
 
@@ -48,6 +49,7 @@ namespace Aplicacao.Controllers
             }
             else
             {
+                item.ListaGategorias = ServicoAplicacaoCategoria.ListaDropDown();
                 return View(item);
             }
 
