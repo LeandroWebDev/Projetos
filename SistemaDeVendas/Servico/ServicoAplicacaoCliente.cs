@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dominio.Interfaces;
 using Dominio.Entidades;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Aplicacao.Servico
 {
@@ -70,6 +71,24 @@ namespace Aplicacao.Servico
             };
 
             return cliente;
+        }
+
+        public IEnumerable<SelectListItem> ListaDropDown()
+        {
+            List<SelectListItem> retorno = new List<SelectListItem>();
+
+            var lista = this.Listar();
+
+            foreach (var item in lista)
+            {
+                SelectListItem cliente = new SelectListItem()
+                {
+                    Value = item.Id.ToString(),
+                    Text = item.Nome
+                };
+                retorno.Add(cliente);
+            }
+            return retorno;
         }
     }
 }

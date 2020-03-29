@@ -11,6 +11,7 @@ namespace Repositorio.Entidades
 {
     public class RepositorioCliente : Repositorio<Cliente>, IRepositorioCliente
     {
+        
         public RepositorioCliente(ApplicationDbContext context) : base(context)
         {
 
