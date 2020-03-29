@@ -31,7 +31,7 @@ namespace Repositorio
             context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             var ent = new TEntidade { Id = id };
             Entidade.Attach(ent);
